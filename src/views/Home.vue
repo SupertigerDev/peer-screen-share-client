@@ -1,7 +1,12 @@
 <template>
   <div class="create">
     <div class="center-box">
-      <input class="input" type="text" v-model="roomName" placeholder="Room Name" />
+      <input
+        class="input"
+        type="text"
+        v-model="roomName"
+        placeholder="Room Name"
+      />
       <button class="button" @click="onCreateClick">Create</button>
     </div>
   </div>
@@ -10,6 +15,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { room } from "@/api";
+import router from "@/router";
 
 export default defineComponent({
   setup() {
@@ -18,10 +24,18 @@ export default defineComponent({
       if (!roomName.value.trim()) {
         roomName.value = "Unnamed Room";
       }
-      room.create({
-        roomName: roomName.value,
-        username: "Fishie",
-      });
+      room
+        .create({
+          roomName: roomName.value,
+          username: "Unnamed User",
+        })
+        .then(async (res) => {
+          const { roomId, token } = await res.json();
+          if (token) {
+            localStorage["token"] = token;
+          }
+          router.push("/rooms/" + roomId);
+        });
     };
     return { onCreateClick, roomName };
   },
