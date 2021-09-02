@@ -3,7 +3,9 @@
 </template>
 
 <style lang="scss">
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   background: black;
 }

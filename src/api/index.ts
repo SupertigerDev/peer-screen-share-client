@@ -1,1 +1,1 @@
-export * as room from './room'
+export * as room from "./room";
