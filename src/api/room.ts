@@ -10,7 +10,7 @@ export function create(roomConfig: CreateArguments) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      authorization: localStorage["token"] || "test",
+      authorization: localStorage["token"] || "",
     },
     body: JSON.stringify(roomConfig),
   });
