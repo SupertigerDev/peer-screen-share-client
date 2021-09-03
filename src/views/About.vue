@@ -1,7 +1,14 @@
 <template>
   <div class="about">
     <h1>{{ connected }}</h1>
-    <UserTemplate v-for="user in connectedUsers" :key="user.id" :user="user" />
+    <div class="list">
+      <UserTemplate />
+      <UserTemplate
+        v-for="user in connectedUsers"
+        :key="user.id"
+        :user="user"
+      />
+    </div>
   </div>
 </template>
 
@@ -11,13 +18,17 @@ import { room } from "@/api";
 import router from "@/router";
 import useSocket from "@/api/socketStore";
 import UserTemplate from "@/components/UserTemplate.vue";
+import Peer, { SignalData } from "simple-peer";
 export default defineComponent({
   components: { UserTemplate },
   setup() {
-    const { connect, connected, connectedUsers } = useSocket();
+    const { connect, connected, connectedUsers, socket } = useSocket();
 
-    onMounted(() => {
+    onMounted(async () => {
       connect();
+      // const video = await (navigator.mediaDevices as any).getDisplayMedia({
+      //   video: true,
+      // });
     });
 
     return { connected, connectedUsers };
@@ -30,5 +41,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   color: white;
+}
+.list {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 </style>
